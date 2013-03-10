@@ -1,7 +1,8 @@
 package com.example.bookstored;
 
-import java.io.File; 
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -23,6 +24,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.googlecode.tesseract.android.TessBaseAPI;
 
 public class MainActivity extends Activity {
@@ -36,6 +38,7 @@ public class MainActivity extends Activity {
 	private static final String TAG = "MainActivity.java";
 	public static final String DATA_PATH = Environment
 			.getExternalStorageDirectory().toString() + "/bookStored/";
+	String FILENAME = "note.txt";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) 
@@ -101,6 +104,28 @@ public class MainActivity extends Activity {
 			startCameraActivity();
 		}
 	}
+	
+	public void generateNoteOnSD(String sFileName, String sBody){
+	    try
+	    {
+	        File root = new File(Environment.getExternalStorageDirectory(), "Notes");
+	        if (!root.exists()) {
+	            root.mkdirs();
+	        }
+	        File gpxfile = new File(root, sFileName);
+	        FileWriter writer = new FileWriter(gpxfile);
+	        writer.append(sBody);
+	        writer.flush();
+	        writer.close();
+	        Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+	    }
+	    catch(IOException e)
+	    {
+	         e.printStackTrace();
+//	         importError = e.getMessage();
+//	         iError();
+	    }
+	   }  
 
 	protected void startCameraActivity()
 	{
@@ -205,6 +230,7 @@ public class MainActivity extends Activity {
 		Log.v(TAG, "OCRED TEXT: " + recognizedText);		
 		recognizedText = recognizedText.replaceAll("[^a-zA-Z0-9]+", " ");
 		recognizedText = recognizedText.trim();
+		generateNoteOnSD(FILENAME, recognizedText);
 		
 //		if ( recognizedText.length() != 0 ) {
 //			_field.setText(_field.getText().toString().length() == 0 ? recognizedText : _field.getText() + " " + recognizedText);
