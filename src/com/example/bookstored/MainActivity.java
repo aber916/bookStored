@@ -12,7 +12,9 @@ import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.hardware.Camera;
 import android.graphics.Matrix;
+import android.hardware.Camera.Parameters;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -89,8 +91,8 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		_image = ( ImageView ) findViewById( R.id.image );
-		_field = ( TextView ) findViewById( R.id.field );
+//		_image = ( ImageView ) findViewById( R.id.image );
+//		_field = ( TextView ) findViewById( R.id.field );
 		_button = ( Button ) findViewById( R.id.button );
 		_button.setOnClickListener( new ButtonClickHandler() );
 
@@ -104,6 +106,20 @@ public class MainActivity extends Activity {
 			startCameraActivity();
 		}
 	}
+	public void viewNotes(View view){
+	
+		Intent intent = new Intent(this, NoteView.class);
+		startActivity(intent);
+		
+	}
+	
+	public void editNotes(View view){
+		
+		Intent intent = new Intent(this, EditNote.class);
+		startActivity(intent);
+		
+	}
+	
 	
 	public void generateNoteOnSD(String sFileName, String sBody){
 	    try
@@ -132,7 +148,6 @@ public class MainActivity extends Activity {
 		Log.i("MakeMachine", "startCameraActivity()" );
 		File file = new File( _path );
 		Uri outputFileUri = Uri.fromFile( file );
-
 		Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE );
 		intent.putExtra( MediaStore.EXTRA_OUTPUT, outputFileUri );
 
