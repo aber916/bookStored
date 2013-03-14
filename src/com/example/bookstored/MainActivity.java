@@ -31,6 +31,7 @@ import com.googlecode.tesseract.android.TessBaseAPI;
 
 public class MainActivity extends Activity {
 
+	protected int fileCounter=1;
 	protected Button _button;
 	protected ImageView _image;
 	protected TextView _field;
@@ -40,7 +41,7 @@ public class MainActivity extends Activity {
 	private static final String TAG = "MainActivity.java";
 	public static final String DATA_PATH = Environment
 			.getExternalStorageDirectory().toString() + "/bookStored/";
-	String FILENAME = "note.txt";
+	String FILENAME = "bkNote";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) 
@@ -137,7 +138,8 @@ public class MainActivity extends Activity {
 	}  
 
 	public String generateFilename(){
-		String fname = "hi raj";
+		String fname = FILENAME +fileCounter+".txt";
+		fileCounter++;
 		//search for valid files
 		//increment counter
 		return fname;
@@ -233,13 +235,12 @@ public class MainActivity extends Activity {
 		baseApi.setImage(bitmap);
 
 		String recognizedText = baseApi.getUTF8Text();
-
 		baseApi.end();
 
 		// You now have the text in recognizedText var, you can do anything with it.
 		// We will display a stripped out trimmed alpha-numeric version of it (if lang is eng)
 		// so that garbage doesn't make it to the display.
-		Toast.makeText(getApplicationContext(), recognizedText, Toast.LENGTH_SHORT).show();
+		//Toast.makeText(getApplicationContext(), recognizedText, Toast.LENGTH_SHORT).show();
 
 		Log.v(TAG, "OCRED TEXT: " + recognizedText);		
 		recognizedText = recognizedText.replaceAll("[^a-zA-Z0-9]+", " ");

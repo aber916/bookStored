@@ -35,7 +35,7 @@ public class EditNote extends Activity {
 	            		String title = mEdit.toString();
 	            		String formattedTitle = "AUTHOR: " + title;
 	            		File sdcard = new File(Environment.getExternalStorageDirectory(), "Notes");
-	            		File file = new File(sdcard,"note.txt");            		
+	            		File file = new File(sdcard,"bknotehiraj.txt");            		
 	            		FileWriter fileWritter = new FileWriter(file.getName(),true);
 	                    BufferedWriter bufferWritter = new BufferedWriter(fileWritter);
 	                    bufferWritter.write(formattedTitle);
