@@ -3,8 +3,13 @@
 
     <string name="app_name">bookStored</string>
     <string name="hello_world">Hello world!</string>
+    <string name="takePhoto">Take Photo</string>
+    <string name="viewNotes">View Notes</string>
+    <string name="editNotes">Edit</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_note_view">NoteView</string>
     <string name="title_activity_edit_note">EditNote</string>
+    <string name="title_activity_list_notes_view">ListNotesView</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

@@ -91,8 +91,8 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-//		_image = ( ImageView ) findViewById( R.id.image );
-//		_field = ( TextView ) findViewById( R.id.field );
+		//		_image = ( ImageView ) findViewById( R.id.image );
+		//		_field = ( TextView ) findViewById( R.id.field );
 		_button = ( Button ) findViewById( R.id.button );
 		_button.setOnClickListener( new ButtonClickHandler() );
 
@@ -106,43 +106,42 @@ public class MainActivity extends Activity {
 			startCameraActivity();
 		}
 	}
-	public void viewNotes(View view){
-	
-		Intent intent = new Intent(this, NoteView.class);
-		startActivity(intent);
-		
-	}
-	
-	public void editNotes(View view){
-		
-		Intent intent = new Intent(this, EditNote.class);
-		startActivity(intent);
-		
-	}
-	
-	
-	public void generateNoteOnSD(String sFileName, String sBody){
-	    try
-	    {
-	        File root = new File(Environment.getExternalStorageDirectory(), "Notes");
-	        if (!root.exists()) {
-	            root.mkdirs();
-	        }
-	        File gpxfile = new File(root, sFileName);
-	        FileWriter writer = new FileWriter(gpxfile);
-	        writer.append(sBody);
-	        writer.flush();
-	        writer.close();
-	        Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
-	    }
-	    catch(IOException e)
-	    {
-	         e.printStackTrace();
-//	         importError = e.getMessage();
-//	         iError();
-	    }
-	   }  
 
+	public void viewNoteList(View v){
+		
+		Intent intent = new Intent(this, ListNotesView.class);
+		startActivity(intent);
+		
+	}
+
+	public void generateNoteOnSD(String sFileName, String sBody){
+		try
+		{
+			File root = new File(Environment.getExternalStorageDirectory(), "Notes");
+			if (!root.exists()) {
+				root.mkdirs();
+			}
+			File gpxfile = new File(root, sFileName);
+			FileWriter writer = new FileWriter(gpxfile);
+			writer.append(sBody);
+			writer.flush();
+			writer.close();
+			Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+			//	         importError = e.getMessage();
+			//	         iError();
+		}
+	}  
+
+	public String generateFilename(){
+		String fname = "hi raj";
+		//search for valid files
+		//increment counter
+		return fname;
+	}
 	protected void startCameraActivity()
 	{
 		Log.i("MakeMachine", "startCameraActivity()" );
@@ -241,16 +240,17 @@ public class MainActivity extends Activity {
 		// We will display a stripped out trimmed alpha-numeric version of it (if lang is eng)
 		// so that garbage doesn't make it to the display.
 		Toast.makeText(getApplicationContext(), recognizedText, Toast.LENGTH_SHORT).show();
-		
+
 		Log.v(TAG, "OCRED TEXT: " + recognizedText);		
 		recognizedText = recognizedText.replaceAll("[^a-zA-Z0-9]+", " ");
 		recognizedText = recognizedText.trim();
-		generateNoteOnSD(FILENAME, recognizedText);
-		
-//		if ( recognizedText.length() != 0 ) {
-//			_field.setText(_field.getText().toString().length() == 0 ? recognizedText : _field.getText() + " " + recognizedText);
-//			//_field.setSelection(_field.getText().toString().length());
-//		}
+		String fName = generateFilename();
+		generateNoteOnSD(fName, recognizedText);
+
+		//		if ( recognizedText.length() != 0 ) {
+		//			_field.setText(_field.getText().toString().length() == 0 ? recognizedText : _field.getText() + " " + recognizedText);
+		//			//_field.setSelection(_field.getText().toString().length());
+		//		}
 	}
 
 	@Override 
