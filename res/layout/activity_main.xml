@@ -34,10 +34,5 @@
 			android:onClick="viewNotes"
 			android:layout_weight="1"/>
 	
-	<Button android:id="@+id/view_notes_button"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:text="Edit Notes"
-			android:onClick="editNotes"
-			android:layout_weight="1"/>
+
 </LinearLayout>

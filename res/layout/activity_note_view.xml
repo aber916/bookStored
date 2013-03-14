@@ -17,9 +17,17 @@
  	android:textSize="16sp" >  
 </TextView> -->
 
-	<TextView 
-    android:id="@+id/text_view" 
-    android:layout_width="fill_parent" 
-    android:layout_height="fill_parent"/>
+	<TextView
+	    android:id="@+id/text_view"
+	    android:layout_width="fill_parent"
+	    android:layout_height="264dp"
+	    android:layout_weight="2.99" />
+	
+	<Button android:id="@+id/view_notes_button"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:text="Edit Note"
+			android:onClick="editNotes"
+			android:layout_weight="1"/>
       
 </LinearLayout>  

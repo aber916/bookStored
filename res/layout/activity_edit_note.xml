@@ -8,7 +8,7 @@
     <LinearLayout  
         android:layout_width="fill_parent"  
         android:orientation="vertical"  
-        android:layout_height="fill_parent">  
+        android:layout_height="wrap_content">  
 <!--Put form controls here-->  
 
 	<TextView  
@@ -20,7 +20,7 @@
     </TextView> 
     
     <EditText
-        android:id="@+id/EditTextName"
+        android:id="@+id/EditTitleName"
         android:layout_width="395dp"
         android:layout_height="wrap_content"
         android:hint="title"
@@ -28,7 +28,7 @@
   	</EditText>
   	
     <TextView  
-    android:id="@+id/TextViewTitle"  
+    android:id="@+id/TextViewAuthorName"  
     android:layout_width="wrap_content"  
     android:layout_height="wrap_content"  
     android:text="Author Name"  
@@ -36,7 +36,7 @@
     </TextView> 
     
     <EditText
-        android:id="@+id/EditTextName"
+        android:id="@+id/EditAuthorName"
         android:layout_width="395dp"
         android:layout_height="wrap_content"
         android:hint="author name"
@@ -44,7 +44,7 @@
   	</EditText>
   	
     <TextView  
-    android:id="@+id/TextViewTitle"  
+    android:id="@+id/TextViewPageNumber"  
     android:layout_width="wrap_content"  
     android:layout_height="wrap_content"  
     android:text="Page number"  
@@ -59,9 +59,25 @@
         android:inputType="textPersonName" >
   	</EditText>
   	
-    <Button android:id="@+id/button"
+    <TextView  
+    android:id="@+id/TextViewAdditionalNotes"  
+    android:layout_width="wrap_content"  
+    android:layout_height="wrap_content"  
+    android:text="Aditional Notes"  
+    android:textSize="10pt">  
+    </TextView>
+  	
+    <EditText  
+    android:id="@+id/AdditionalNotes"  
+    android:layout_height="wrap_content"   
+    android:inputType="textMultiLine"  
+    android:lines="2"  
+    android:layout_width="fill_parent">  
+	</EditText>
+  	
+    <Button android:id="@+id/submit_button"
 			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
+			android:layout_height="0dip"
 			android:text="Submit"
 			android:layout_weight="1"/> 
     </LinearLayout> 

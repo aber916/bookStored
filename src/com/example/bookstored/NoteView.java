@@ -6,14 +6,17 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
   
 public class NoteView extends Activity {  
-    
+	
   private ListView mainListView ;  
   private ArrayAdapter<String> listAdapter ;  
     
@@ -76,5 +79,16 @@ public class NoteView extends Activity {
 //      
 //    // Set the ArrayAdapter as the ListView's adapter.  
 //    mainListView.setAdapter( listAdapter );        
-  }  
+  }
+  
+  public void editNotes(View view){
+		Intent intent = new Intent(this, EditNote.class);
+		startActivity(intent);
+	}
+  
+  
+  
+  
+  
+  
 } 
