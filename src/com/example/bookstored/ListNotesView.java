@@ -1,9 +1,10 @@
 package com.example.bookstored;
 
+import java.io.File;
 import java.util.ArrayList;
 
-import android.R.string;
 import android.os.Bundle; 
+import android.os.Environment;
 import android.app.Activity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +17,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.support.v4.app.NavUtils;
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -33,18 +33,20 @@ public class ListNotesView extends Activity implements OnItemClickListener{
 		setupActionBar();
 
 		listview = (ListView) findViewById(R.id.noteList);
-		
+
 		viewNoteAdapter mainAdapt = new viewNoteAdapter(this, R.layout.listheader, getNoteTitles());
 		listview.setAdapter(mainAdapt);
 		listview.setOnItemClickListener(this);
 	}
 	public void onItemClick(AdapterView<?> l, View v, int position, long id) {
 		Log.i("HelloListView", "You clicked Item: " + id + " at position:" + position);
+		ArrayList<simpleNote> currentList = getNoteTitles();
+		simpleNote currentNote = currentList.get(position);
 		Intent intent = new Intent();
 		intent.setClass(this, NoteView.class);
 		//intent.putExtra("name", R.id.)
 		intent.putExtra("position", position);
-		intent.putExtra("id", id);
+		intent.putExtra("title", currentNote.title+".txt");
 		startActivity(intent);
 	}
 
@@ -81,7 +83,6 @@ public class ListNotesView extends Activity implements OnItemClickListener{
 			// more details, see the Navigation pattern on Android Design:
 			//
 			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
-			//
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
 		}
@@ -89,16 +90,22 @@ public class ListNotesView extends Activity implements OnItemClickListener{
 	}
 
 	private ArrayList<simpleNote> getNoteTitles(){
+		int i;
 		ArrayList<simpleNote> notes = new ArrayList<simpleNote>();
+		File mfile=new File(Environment.getExternalStorageDirectory(), "Notes");
+		File[] list=mfile.listFiles();
 
-		for (int x=0; x<10; x++){
-		simpleNote cNote = new simpleNote();
-		cNote.title = "workingTitle " + x;
-		cNote.bookTitle = "bookTitle " +x;
-		cNote.author= "author "+x;
-		cNote.pgNum = "pageNumber "+x;
-		
-		notes.add(cNote);
+		System.out.println("list"+mfile.listFiles().length);
+		for(i=0;i<mfile.listFiles().length;i++){
+			simpleNote cNote = new simpleNote();
+//			System.out.println("hidden path files.."+list[i].getAbsolutePath());
+			System.out.println(list[i].getName());
+
+			cNote.title = list[i].getName().replaceAll(".txt", "");
+//			cNote.bookTitle = "bookTitle " +x;
+//			cNote.author= "author "+x;
+//			cNote.pgNum = "pageNumber "+x;
+			notes.add(cNote);
 		}
 		return notes;
 	}
@@ -113,7 +120,7 @@ public class ListNotesView extends Activity implements OnItemClickListener{
 	}
 
 	public class viewNoteAdapter extends ArrayAdapter<simpleNote> {
-		private ArrayList<simpleNote> noteList;
+		public ArrayList<simpleNote> noteList;
 		public viewNoteAdapter(Context context, int textViewResourceId, ArrayList<simpleNote> notes){
 			super(context, textViewResourceId, notes);
 			this.noteList = notes;
@@ -136,7 +143,7 @@ public class ListNotesView extends Activity implements OnItemClickListener{
 			btitle.setText(currentNote.bookTitle);
 			fAuthor.setText(currentNote.author);
 			pgNum.setText(currentNote.pgNum);
-			
+
 			return v;
 		}
 	}

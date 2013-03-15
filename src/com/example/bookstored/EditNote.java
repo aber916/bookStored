@@ -23,7 +23,9 @@ public class EditNote extends Activity {
 		setContentView(R.layout.activity_edit_note);
 		mButton = (Button)findViewById(R.id.submit_button);
 	    mEdit   = (EditText)findViewById(R.id.EditTitleName);
-	    
+	    File mfile=new File(Environment.getExternalStorageDirectory(), "Notes");
+		File[] list=mfile.listFiles();
+		
 	    mButton.setOnClickListener(
 	            new View.OnClickListener()
 	            {

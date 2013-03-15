@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -109,10 +110,10 @@ public class MainActivity extends Activity {
 	}
 
 	public void viewNoteList(View v){
-		
+
 		Intent intent = new Intent(this, ListNotesView.class);
 		startActivity(intent);
-		
+
 	}
 
 	public void generateNoteOnSD(String sFileName, String sBody){
@@ -137,12 +138,16 @@ public class MainActivity extends Activity {
 		}
 	}  
 
+
+
 	public String generateFilename(){
-		String fname = FILENAME +fileCounter+".txt";
-		fileCounter++;
-		//search for valid files
-		//increment counter
-		return fname;
+
+		File mfile=new File(Environment.getExternalStorageDirectory(), "Notes");
+
+		int hack = mfile.listFiles().length+1;
+		String outFile = FILENAME + hack + ".txt";
+		return outFile;
+
 	}
 	protected void startCameraActivity()
 	{
@@ -246,6 +251,8 @@ public class MainActivity extends Activity {
 		recognizedText = recognizedText.replaceAll("[^a-zA-Z0-9]+", " ");
 		recognizedText = recognizedText.trim();
 		String fName = generateFilename();
+
+		System.out.println("fName at onpicture taken= "+fName);
 		generateNoteOnSD(fName, recognizedText);
 
 		//		if ( recognizedText.length() != 0 ) {

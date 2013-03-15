@@ -7,14 +7,15 @@
     <EditText
         android:id="@+id/text_view"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.93"
+        android:lines="2"
         android:textIsSelectable="true" />
 
     <Button
         android:id="@+id/view_notes_button"
         android:layout_width="fill_parent"
-        android:layout_height="20dp"
-        android:layout_weight="1"
+        android:layout_height="40dp"
         android:onClick="editNotes"
         android:text="@string/editNotes" />
 </LinearLayout>
