@@ -5,8 +5,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-import com.example.bookstored.ListNotesView.simpleNote;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,16 +14,17 @@ import android.widget.TextView;
 
 public class NoteView extends Activity {  
 
-	/** Called when the activity is first created. */  
+	/** Called when the activity is first created. */ 
+	
 	@Override  
 	public void onCreate(Bundle savedInstanceState) {  
 		super.onCreate(savedInstanceState);  
 		setContentView(R.layout.activity_note_view); 
-		String name = getIntent().getStringExtra("title");
+		
 		//    Toast.makeText(getApplicationContext(), "position is " + position, Toast.LENGTH_SHORT).show();
 		//    Toast.makeText(getApplicationContext(), "title is " + name, Toast.LENGTH_SHORT).show();
 
-
+		String name = getIntent().getStringExtra("title");
 		//Find the directory for the SD Card using the API
 		File sdcard = new File(Environment.getExternalStorageDirectory(), "Notes");
 
@@ -62,14 +61,16 @@ public class NoteView extends Activity {
 	public void editNotes(View view){
 //		File mfile=new File(Environment.getExternalStorageDirectory(), "Notes");
 //		File[] list=mfile.listFiles();
+		String name = getIntent().getStringExtra("title");
 		Intent intent = new Intent(this, EditNote.class);
+		//intent.putExtra("name", R.id.)
+		intent.putExtra("title", name);
+		startActivity(intent);
+	
 //		simpleNote cNote =new simpleNote();
 ////		
-//		intent.putExtra("author", cNote.author);
-//		intent.putExtra("dateCreated",cNote.dateCreated);
-//		intent.putExtra("bookTitle", cNote.bookTitle);
-//		intent.putExtra("pgNum",cNote.pgNum);
-		startActivity(intent);
+
+		
 	}
 
 

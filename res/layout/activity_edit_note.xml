@@ -52,7 +52,7 @@
     </TextView> 
     
     <EditText
-        android:id="@+id/EditTextName"
+        android:id="@+id/EditPageNumber"
         android:layout_width="395dp"
         android:layout_height="wrap_content"
         android:hint="page number"

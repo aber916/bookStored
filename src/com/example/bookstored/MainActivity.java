@@ -1,19 +1,16 @@
 package com.example.bookstored;
 
-import java.io.File;
+import java.io.File; 
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-
+import android.graphics.BitmapFactory; 
 import android.graphics.Matrix;
 
 import android.media.ExifInterface;
@@ -125,7 +122,7 @@ public class MainActivity extends Activity {
 			}
 			File gpxfile = new File(root, sFileName);
 			FileWriter writer = new FileWriter(gpxfile);
-			writer.append(sBody);
+			writer.append(sBody+"\n");
 			writer.flush();
 			writer.close();
 			Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();

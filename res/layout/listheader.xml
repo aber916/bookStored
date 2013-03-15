@@ -8,35 +8,26 @@
         android:id="@+id/fileTitle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
         android:textIsSelectable="true"
+        android:visibility="invisible"
         />
     
     <TextView
     	android:id="@+id/fileAuthor"
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
-    	android:textSize="12sp"
     	android:textIsSelectable="true"
     	android:layout_below="@id/fileTitle"
-        />
-
-    <TextView
-    	android:id="@+id/bookTitle"
-    	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-    	android:textSize="12sp"
-    	android:textIsSelectable="true"
-    	android:layout_below="@id/fileAuthor"
+        android:visibility="invisible"
         />
     
     <TextView
     	android:id="@+id/pageNumber"
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
-    	android:textSize="12sp"
     	android:textIsSelectable="true"
-    	android:layout_below="@id/bookTitle"
+    	android:layout_below="@id/fileAuthor"
+        android:visibility="invisible"
         />
     
 

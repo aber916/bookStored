@@ -4,18 +4,20 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <EditText
+    <TextView
         android:id="@+id/text_view"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.93"
-        android:lines="2"
+        android:verticalScrollbarPosition="right"
+        android:lines="26"
+        android:gravity="top|left"
+        android:textSize="14sp"
         android:textIsSelectable="true" />
 
     <Button
         android:id="@+id/view_notes_button"
         android:layout_width="fill_parent"
-        android:layout_height="40dp"
+        android:layout_height="48dp"
         android:onClick="editNotes"
         android:text="@string/editNotes" />
 </LinearLayout>

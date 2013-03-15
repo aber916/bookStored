@@ -1,6 +1,9 @@
 package com.example.bookstored;
 
+import java.io.BufferedReader; 
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import android.os.Bundle; 
@@ -18,11 +21,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.support.v4.app.NavUtils;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 
+@SuppressLint("CutPasteId")
 public class ListNotesView extends Activity implements OnItemClickListener{
 	ListView listview;
 	@Override
@@ -33,18 +38,17 @@ public class ListNotesView extends Activity implements OnItemClickListener{
 		setupActionBar();
 
 		listview = (ListView) findViewById(R.id.noteList);
-
 		viewNoteAdapter mainAdapt = new viewNoteAdapter(this, R.layout.listheader, getNoteTitles());
 		listview.setAdapter(mainAdapt);
 		listview.setOnItemClickListener(this);
 	}
+
 	public void onItemClick(AdapterView<?> l, View v, int position, long id) {
 		Log.i("HelloListView", "You clicked Item: " + id + " at position:" + position);
 		ArrayList<simpleNote> currentList = getNoteTitles();
 		simpleNote currentNote = currentList.get(position);
 		Intent intent = new Intent();
 		intent.setClass(this, NoteView.class);
-		//intent.putExtra("name", R.id.)
 		intent.putExtra("position", position);
 		intent.putExtra("title", currentNote.title+".txt");
 		startActivity(intent);
@@ -60,7 +64,6 @@ public class ListNotesView extends Activity implements OnItemClickListener{
 	}
 
 	public void viewNote(View view){
-
 		Intent intent = new Intent(this, NoteView.class);
 		startActivity(intent);
 
@@ -77,46 +80,81 @@ public class ListNotesView extends Activity implements OnItemClickListener{
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			// This ID represents the Home or Up button. In the case of this
-			// activity, the Up button is shown. Use NavUtils to allow users
-			// to navigate up one level in the application structure. For
-			// more details, see the Navigation pattern on Android Design:
-			//
-			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
+
+	private String getFileInfo(String label, File file){ //finds the name of desired label
+		String labelName="space!";
+		String labelValue= new String();
+		String line="";
+		StringBuilder text = new StringBuilder();
+
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(file));
+
+			while ((line = br.readLine()) != null) {
+				text.append(line);
+				text.append('\n');
+				if(label.equals("title")){
+					if(line.contains("'Title'")){
+						labelValue=line.replace("'Title': ", "");				
+						br.close();
+						return labelValue;
+					}
+				}
+
+				if(label.equals("author")){
+					if(line.contains("'Author'")){
+						labelValue=line.replace("'Author': ", "");				
+						br.close();
+						return labelValue;
+					}
+				}
+				if(label.equals("pgnum")){
+					if(line.contains("'Page Number'")){
+						labelValue=line.replace("'Page Number': ", "");			
+						br.close();
+						return labelValue;
+					}
+				}
+			}
+			br.close();
+		}
+		catch (IOException e) {
+		}
+		return labelName;
+	}
+
 	private ArrayList<simpleNote> getNoteTitles(){
 		int i;
 		ArrayList<simpleNote> notes = new ArrayList<simpleNote>();
-		File mfile=new File(Environment.getExternalStorageDirectory(), "Notes");
-		File[] list=mfile.listFiles();
-
+		File mfile=new File(Environment.getExternalStorageDirectory(), "Notes"); //open folder 
+		File[] list=mfile.listFiles();   //put list of files in File[]
 		System.out.println("list"+mfile.listFiles().length);
-		for(i=0;i<mfile.listFiles().length;i++){
-			simpleNote cNote = new simpleNote();
-//			System.out.println("hidden path files.."+list[i].getAbsolutePath());
-			System.out.println(list[i].getName());
+		for(i=0;i<mfile.listFiles().length;i++){   		  //gets names of files and puts them in ListView
 
+			simpleNote cNote = new simpleNote();
+			//			System.out.println("hidden path files.."+list[i].getAbsolutePath());
+			System.out.println(list[i].getName());
 			cNote.title = list[i].getName().replaceAll(".txt", "");
-//			cNote.bookTitle = "bookTitle " +x;
-//			cNote.author= "author "+x;
-//			cNote.pgNum = "pageNumber "+x;
+			cNote.noteTitle = getFileInfo("title", list[i]);
+			cNote.author= getFileInfo("author",list[i]);
+			cNote.pgNum = getFileInfo("pgnum", list[i]);
 			notes.add(cNote);
 		}
 		return notes;
 	}
 
-
 	public class simpleNote{
-		String title;
-		String author;
-		String dateCreated;
-		String bookTitle;
-		String pgNum;
+		String title=" ";
+		String author=" ";
+		String dateCreated=" ";
+		String noteTitle=" ";
+		String pgNum=" ";
 	}
 
 	public class viewNoteAdapter extends ArrayAdapter<simpleNote> {
@@ -134,18 +172,32 @@ public class ListNotesView extends Activity implements OnItemClickListener{
 				v = vi.inflate(R.layout.listheader, null);
 			}
 			simpleNote currentNote = noteList.get(position);
-			TextView fTitle = (TextView) v.findViewById(R.id.fileTitle);
-			TextView btitle = (TextView) v.findViewById(R.id.bookTitle);
-			TextView fAuthor = (TextView) v.findViewById(R.id.fileAuthor);
-			TextView pgNum = (TextView) v.findViewById(R.id.pageNumber);
+			if(!currentNote.title.contentEquals(" ")){
+				TextView fTitle = (TextView) v.findViewById(R.id.fileTitle);
+				fTitle.setText(currentNote.title);
+				fTitle.setTextSize(20);
+				fTitle.setVisibility(View.VISIBLE);}
 
-			fTitle.setText(currentNote.title);
-			btitle.setText(currentNote.bookTitle);
-			fAuthor.setText(currentNote.author);
-			pgNum.setText(currentNote.pgNum);
+			if(!currentNote.noteTitle.equals("space!")){
+				TextView btitle = (TextView) v.findViewById(R.id.fileTitle);
+				btitle.setText(currentNote.noteTitle);
+				btitle.setTextSize(20);
+				btitle.setVisibility(View.VISIBLE);}
+
+			if(!currentNote.author.equals("space!")){
+				TextView fAuthor = (TextView) v.findViewById(R.id.fileAuthor);
+				fAuthor.setText("Author: "+currentNote.author);
+				fAuthor.setTextSize(12);
+				fAuthor.setVisibility(View.VISIBLE);}
+
+			if(!currentNote.pgNum.equals("space!")){
+				TextView pgNum = (TextView) v.findViewById(R.id.pageNumber);
+				pgNum.setText("Page Number: "+currentNote.pgNum);
+				pgNum.setTextSize(12);
+				pgNum.setVisibility(View.VISIBLE);}
 
 			return v;
-		}
+		} 
 	}
 }
 
