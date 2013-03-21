@@ -66,7 +66,6 @@ public class MainActivity extends Activity {
 
 				AssetManager assetManager = getAssets();
 				InputStream in = assetManager.open("tessdata/eng.traineddata");
-				//GZIPInputStream gin = new GZIPInputStream(in);
 				OutputStream out = new FileOutputStream(DATA_PATH
 						+ "tessdata/eng.traineddata");
 
@@ -89,9 +88,6 @@ public class MainActivity extends Activity {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
-		//		_image = ( ImageView ) findViewById( R.id.image );
-		//		_field = ( TextView ) findViewById( R.id.field );
 		_button = ( Button ) findViewById( R.id.button );
 		_button.setOnClickListener( new ButtonClickHandler() );
 
@@ -130,8 +126,6 @@ public class MainActivity extends Activity {
 		catch(IOException e)
 		{
 			e.printStackTrace();
-			//	         importError = e.getMessage();
-			//	         iError();
 		}
 	}  
 
@@ -207,17 +201,12 @@ public class MainActivity extends Activity {
 			Log.v(TAG, "Rotation: " + rotate);
 
 			if (rotate != 0) {
-
-				// Getting width & height of the given image.
 				int w = bitmap.getWidth();
 				int h = bitmap.getHeight();
 
-				// Setting pre rotate
 				Matrix mtx = new Matrix();
 				mtx.preRotate(rotate);
-
-				// Rotating Bitmap
-				bitmap = Bitmap.createBitmap(bitmap, 0, 0, w, h, mtx, false);
+				bitmap = Bitmap.createBitmap(bitmap, 0, 0, w, h, mtx, false); //adjust orientation of image if characters are incorrectly oriented
 			}
 
 			// Convert to ARGB_8888, required by tess
@@ -226,8 +215,6 @@ public class MainActivity extends Activity {
 		} catch (IOException e) {
 			Log.e(TAG, "Couldn't correct orientation: " + e.toString());
 		}
-
-		// _image.setImageBitmap( bitmap );
 
 		Log.v(TAG, "Before baseApi");
 
@@ -239,10 +226,6 @@ public class MainActivity extends Activity {
 		String recognizedText = baseApi.getUTF8Text();
 		baseApi.end();
 
-		// You now have the text in recognizedText var, you can do anything with it.
-		// We will display a stripped out trimmed alpha-numeric version of it (if lang is eng)
-		// so that garbage doesn't make it to the display.
-		//Toast.makeText(getApplicationContext(), recognizedText, Toast.LENGTH_SHORT).show();
 
 		Log.v(TAG, "OCRED TEXT: " + recognizedText);		
 		recognizedText = recognizedText.replaceAll("[^a-zA-Z0-9]+", " ");
@@ -251,11 +234,6 @@ public class MainActivity extends Activity {
 
 		System.out.println("fName at onpicture taken= "+fName);
 		generateNoteOnSD(fName, recognizedText);
-
-		//		if ( recognizedText.length() != 0 ) {
-		//			_field.setText(_field.getText().toString().length() == 0 ? recognizedText : _field.getText() + " " + recognizedText);
-		//			//_field.setSelection(_field.getText().toString().length());
-		//		}
 	}
 
 	@Override 

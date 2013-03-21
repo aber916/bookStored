@@ -11,5 +11,11 @@
     <string name="title_activity_edit_note">EditNote</string>
     <string name="title_activity_list_notes_view">ListNotesView</string>
     <string name="action_settings">Settings</string>
-
+    <string name="titleHint">Title</string>
+    <string name="authorName">Author Name</string>
+    <string name="pageNum">Page Number</string>
+    <string name="addNote">Additional Notes</string>
+    <string name="defTag">textPageName</string>
+    <string name="submitBtn">Submit</string>
+	<string name="noteTitle">Note Title</string>
 </resources>
