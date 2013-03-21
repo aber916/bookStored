@@ -7,7 +7,8 @@
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="17" />
-  <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -17,7 +18,7 @@
     <uses-feature
         android:name="android.hardware.camera.autofocus"
         android:required="false" />
-    
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -31,6 +32,22 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.example.bookstored.NoteView"
+            android:label="@string/title_activity_note_view" >
+        </activity>
+        <activity
+            android:name="com.example.bookstored.EditNote"
+            android:label="@string/title_activity_edit_note" >
+        </activity>
+        <activity
+            android:name="com.example.bookstored.ListNotesView"
+            android:label="@string/title_activity_list_notes_view"
+            android:parentActivityName="com.example.bookstored.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.bookstored.MainActivity" />
         </activity>
     </application>
 

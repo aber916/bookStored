@@ -2,16 +2,17 @@ package com.example.bookstored;
 
 import java.io.File; 
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.BitmapFactory; 
 import android.graphics.Matrix;
+
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,10 +24,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.googlecode.tesseract.android.TessBaseAPI;
 
 public class MainActivity extends Activity {
 
+	protected int fileCounter=1;
 	protected Button _button;
 	protected ImageView _image;
 	protected TextView _field;
@@ -36,6 +39,7 @@ public class MainActivity extends Activity {
 	private static final String TAG = "MainActivity.java";
 	public static final String DATA_PATH = Environment
 			.getExternalStorageDirectory().toString() + "/bookStored/";
+	String FILENAME = "bkNote";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) 
@@ -62,7 +66,6 @@ public class MainActivity extends Activity {
 
 				AssetManager assetManager = getAssets();
 				InputStream in = assetManager.open("tessdata/eng.traineddata");
-				//GZIPInputStream gin = new GZIPInputStream(in);
 				OutputStream out = new FileOutputStream(DATA_PATH
 						+ "tessdata/eng.traineddata");
 
@@ -74,7 +77,6 @@ public class MainActivity extends Activity {
 					out.write(buf, 0, len);
 				}
 				in.close();
-				//gin.close();
 				out.close();
 
 				Log.v(TAG, "Copied " + "eng" + " traineddata");
@@ -85,9 +87,6 @@ public class MainActivity extends Activity {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
-		_image = ( ImageView ) findViewById( R.id.image );
-		_field = ( TextView ) findViewById( R.id.field );
 		_button = ( Button ) findViewById( R.id.button );
 		_button.setOnClickListener( new ButtonClickHandler() );
 
@@ -102,12 +101,49 @@ public class MainActivity extends Activity {
 		}
 	}
 
-	protected void startCameraActivity()
+	public void viewNoteList(View v){
+
+		Intent intent = new Intent(this, ListNotesView.class);
+		startActivity(intent);
+
+	}
+
+	public void generateNoteOnSD(String sFileName, String sBody){ //create text file in "Notes" folder of the app
+		try
+		{
+			File root = new File(Environment.getExternalStorageDirectory(), "Notes");
+			if (!root.exists()) {
+				root.mkdirs();
+			}
+			File gpxfile = new File(root, sFileName);
+			FileWriter writer = new FileWriter(gpxfile);
+			writer.append(sBody+"\n");
+			writer.flush();
+			writer.close();
+			Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
+	}  
+
+
+
+	public String generateFilename(){ //create unique file name to prevent overwritting
+
+		File mfile=new File(Environment.getExternalStorageDirectory(), "Notes");
+
+		int hack = mfile.listFiles().length+1;
+		String outFile = FILENAME + hack + ".txt";
+		return outFile;
+
+	}
+	protected void startCameraActivity() //initiate local camera
 	{
 		Log.i("MakeMachine", "startCameraActivity()" );
 		File file = new File( _path );
 		Uri outputFileUri = Uri.fromFile( file );
-
 		Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE );
 		intent.putExtra( MediaStore.EXTRA_OUTPUT, outputFileUri );
 
@@ -137,7 +173,7 @@ public class MainActivity extends Activity {
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inSampleSize = 4;
 
-		Bitmap bitmap = BitmapFactory.decodeFile(_path, options);
+		Bitmap bitmap = BitmapFactory.decodeFile(_path, options); //decode image from given path and turn into Bitmap for further conversion
 
 		try {
 			ExifInterface exif = new ExifInterface(_path);
@@ -164,17 +200,12 @@ public class MainActivity extends Activity {
 			Log.v(TAG, "Rotation: " + rotate);
 
 			if (rotate != 0) {
-
-				// Getting width & height of the given image.
 				int w = bitmap.getWidth();
 				int h = bitmap.getHeight();
 
-				// Setting pre rotate
 				Matrix mtx = new Matrix();
 				mtx.preRotate(rotate);
-
-				// Rotating Bitmap
-				bitmap = Bitmap.createBitmap(bitmap, 0, 0, w, h, mtx, false);
+				bitmap = Bitmap.createBitmap(bitmap, 0, 0, w, h, mtx, false); //adjust orientation of image if characters are incorrectly oriented
 			}
 
 			// Convert to ARGB_8888, required by tess
@@ -184,32 +215,24 @@ public class MainActivity extends Activity {
 			Log.e(TAG, "Couldn't correct orientation: " + e.toString());
 		}
 
-		// _image.setImageBitmap( bitmap );
-
 		Log.v(TAG, "Before baseApi");
 
 		TessBaseAPI baseApi = new TessBaseAPI();
 		baseApi.setDebug(true);
-		baseApi.init(DATA_PATH, "eng");
+		baseApi.init(DATA_PATH, "eng"); //convert image to text using OCR
 		baseApi.setImage(bitmap);
 
 		String recognizedText = baseApi.getUTF8Text();
-
 		baseApi.end();
 
-		// You now have the text in recognizedText var, you can do anything with it.
-		// We will display a stripped out trimmed alpha-numeric version of it (if lang is eng)
-		// so that garbage doesn't make it to the display.
-		Toast.makeText(getApplicationContext(), recognizedText, Toast.LENGTH_SHORT).show();
-		
+
 		Log.v(TAG, "OCRED TEXT: " + recognizedText);		
 		recognizedText = recognizedText.replaceAll("[^a-zA-Z0-9]+", " ");
 		recognizedText = recognizedText.trim();
-		
-//		if ( recognizedText.length() != 0 ) {
-//			_field.setText(_field.getText().toString().length() == 0 ? recognizedText : _field.getText() + " " + recognizedText);
-//			//_field.setSelection(_field.getText().toString().length());
-//		}
+		String fName = generateFilename();
+
+		System.out.println("fName at onpicture taken= "+fName);
+		generateNoteOnSD(fName, recognizedText); //attach created file with content
 	}
 
 	@Override 

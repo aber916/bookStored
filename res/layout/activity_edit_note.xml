@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<ScrollView  
+    xmlns:android="http://schemas.android.com/apk/res/android"  
+    android:id="@+id/ScrollView01"  
+    android:layout_width="wrap_content"  
+    android:layout_height="wrap_content"  
+    android:scrollbars="vertical">  
+    <LinearLayout  
+        android:layout_width="fill_parent"  
+        android:orientation="vertical"  
+        android:layout_height="wrap_content">  
+<!--Put form controls here-->  
+
+	<TextView  
+    android:id="@+id/TextViewTitle"  
+    android:layout_width="wrap_content"  
+    android:layout_height="wrap_content"  
+    android:text="@string/noteTitle"  
+    android:textSize="10pt">  
+    </TextView> 
+    
+    <EditText
+        android:id="@+id/EditTitleName"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/titleHint"
+        android:inputType="textPersonName" >
+  	</EditText>
+  	
+    <TextView  
+    android:id="@+id/TextViewAuthorName"  
+    android:layout_width="wrap_content"  
+    android:layout_height="wrap_content"  
+    android:text="@string/authorName"  
+    android:textSize="10pt">  
+    </TextView> 
+    
+    <EditText
+        android:id="@+id/EditAuthorName"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/authorName"
+        android:inputType="textPersonName" >
+  	</EditText>
+  	
+    <TextView  
+    android:id="@+id/TextViewPageNumber"  
+    android:layout_width="wrap_content"  
+    android:layout_height="wrap_content"  
+    android:text="@string/pageNum"  
+    android:textSize="10pt">  
+    </TextView> 
+    
+    <EditText
+        android:id="@+id/EditPageNumber"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/pageNum"
+        android:inputType="numberSigned" >
+  	</EditText>
+  	
+    <TextView  
+    android:id="@+id/TextViewAdditionalNotes"  
+    android:layout_width="wrap_content"  
+    android:layout_height="wrap_content"  
+    android:text="@string/addNote"  
+    android:textSize="10pt">  
+    </TextView>
+  	
+    <EditText  
+    android:id="@+id/AdditionalNotes"  
+    android:layout_height="wrap_content"   
+    android:inputType="textMultiLine"  
+    android:lines="2"  
+    android:layout_width="fill_parent">  
+	</EditText>
+  	
+    <Button android:id="@+id/submit_button"
+			android:layout_width="fill_parent"
+			android:layout_height="0dip"
+			android:text="@string/submitBtn"
+			android:layout_weight="1"/> 
+    </LinearLayout> 
+    
+</ScrollView> 

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/text_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:verticalScrollbarPosition="right"
+        android:lines="26"
+        android:gravity="top|left"
+        android:textSize="14sp"
+        android:textIsSelectable="true" />
+
+    <Button
+        android:id="@+id/view_notes_button"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:onClick="editNotes"
+        android:text="@string/editNotes" />
+</LinearLayout>
