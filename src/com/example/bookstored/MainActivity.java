@@ -77,7 +77,6 @@ public class MainActivity extends Activity {
 					out.write(buf, 0, len);
 				}
 				in.close();
-				//gin.close();
 				out.close();
 
 				Log.v(TAG, "Copied " + "eng" + " traineddata");
@@ -109,7 +108,7 @@ public class MainActivity extends Activity {
 
 	}
 
-	public void generateNoteOnSD(String sFileName, String sBody){
+	public void generateNoteOnSD(String sFileName, String sBody){ //create text file in "Notes" folder of the app
 		try
 		{
 			File root = new File(Environment.getExternalStorageDirectory(), "Notes");
@@ -131,7 +130,7 @@ public class MainActivity extends Activity {
 
 
 
-	public String generateFilename(){
+	public String generateFilename(){ //create unique file name to prevent overwritting
 
 		File mfile=new File(Environment.getExternalStorageDirectory(), "Notes");
 
@@ -140,7 +139,7 @@ public class MainActivity extends Activity {
 		return outFile;
 
 	}
-	protected void startCameraActivity()
+	protected void startCameraActivity() //initiate local camera
 	{
 		Log.i("MakeMachine", "startCameraActivity()" );
 		File file = new File( _path );
@@ -174,7 +173,7 @@ public class MainActivity extends Activity {
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inSampleSize = 4;
 
-		Bitmap bitmap = BitmapFactory.decodeFile(_path, options);
+		Bitmap bitmap = BitmapFactory.decodeFile(_path, options); //decode image from given path and turn into Bitmap for further conversion
 
 		try {
 			ExifInterface exif = new ExifInterface(_path);
@@ -220,7 +219,7 @@ public class MainActivity extends Activity {
 
 		TessBaseAPI baseApi = new TessBaseAPI();
 		baseApi.setDebug(true);
-		baseApi.init(DATA_PATH, "eng");
+		baseApi.init(DATA_PATH, "eng"); //convert image to text using OCR
 		baseApi.setImage(bitmap);
 
 		String recognizedText = baseApi.getUTF8Text();
@@ -233,7 +232,7 @@ public class MainActivity extends Activity {
 		String fName = generateFilename();
 
 		System.out.println("fName at onpicture taken= "+fName);
-		generateNoteOnSD(fName, recognizedText);
+		generateNoteOnSD(fName, recognizedText); //attach created file with content
 	}
 
 	@Override 

@@ -34,8 +34,6 @@ public class EditNote extends Activity {
 	    Log.i("title Hi Abe", name);
 	    
 	    
-//	    File mfile=new File(Environment.getExternalStorageDirectory(), "Notes");
-//		File[] list=mfile.listFiles();
 		
 	    mButton.setOnClickListener(
 	            new View.OnClickListener()
@@ -64,11 +62,8 @@ public class EditNote extends Activity {
 	public void writeSubmittedValues(String title, String author, String pageNumber, String aNotes){ 	//add submitted values
 		
 		
-		//look for current file
 		String name = getIntent().getStringExtra("title");
 		File sdcard = new File(Environment.getExternalStorageDirectory(), "Notes");
-
-		//Get the text file
 		File file = new File(sdcard,name);
 		try{
 			FileWriter fw = new FileWriter(file,true); //the true will append the new data

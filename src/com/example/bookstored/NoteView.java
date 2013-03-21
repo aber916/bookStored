@@ -20,9 +20,6 @@ public class NoteView extends Activity {
 	public void onCreate(Bundle savedInstanceState) {  
 		super.onCreate(savedInstanceState);  
 		setContentView(R.layout.activity_note_view); 
-		
-		//    Toast.makeText(getApplicationContext(), "position is " + position, Toast.LENGTH_SHORT).show();
-		//    Toast.makeText(getApplicationContext(), "title is " + name, Toast.LENGTH_SHORT).show();
 
 		String name = getIntent().getStringExtra("title");
 		//Find the directory for the SD Card using the API
@@ -46,7 +43,6 @@ public class NoteView extends Activity {
 			br.close();
 		}
 		catch (IOException e) {
-			//You'll need to add proper error handling here
 		}
 
 		//Find the view by its id
@@ -59,23 +55,11 @@ public class NoteView extends Activity {
 	}
 
 	public void editNotes(View view){
-//		File mfile=new File(Environment.getExternalStorageDirectory(), "Notes");
-//		File[] list=mfile.listFiles();
 		String name = getIntent().getStringExtra("title");
 		Intent intent = new Intent(this, EditNote.class);
 		//intent.putExtra("name", R.id.)
 		intent.putExtra("title", name);
-		startActivity(intent);
-	
-//		simpleNote cNote =new simpleNote();
-////		
-
-		
+		startActivity(intent);		
 	}
-
-
-
-
-
 
 } 
